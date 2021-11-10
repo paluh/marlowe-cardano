@@ -1,14 +1,13 @@
 module Language.Marlowe.SemanticsDeserialisation (byteStringToContract) where
 
-import           Language.Marlowe.Deserialisation (byteStringToInt, byteStringToList, byteStringToPositiveInt,
-                                                   getByteString)
-import           Language.Marlowe.SemanticsTypes  (Action (..), Bound (..), Case (..), ChoiceId (..), Contract (..),
-                                                   Observation (..), Party (..), Payee (..), Token (..),
-                                                   Value (AddValue, AvailableMoney, ChoiceValue, Cond, Constant, DivValue, MulValue, NegValue, SlotIntervalEnd, SlotIntervalStart, SubValue, UseValue),
-                                                   ValueId (..))
-import           Ledger                           (PubKeyHash (..), Slot (..))
-import           Ledger.Value                     (CurrencySymbol (..), TokenName (..))
-import           PlutusTx.Builtins                (BuiltinByteString)
+import Language.Marlowe.Deserialisation (byteStringToInt, byteStringToList, byteStringToPositiveInt, getByteString)
+import Language.Marlowe.SemanticsTypes (Action (..), Bound (..), Case (..), ChoiceId (..), Contract (..),
+                                        Observation (..), Party (..), Payee (..), Token (..),
+                                        Value (AddValue, AvailableMoney, ChoiceValue, Cond, Constant, DivValue, MulValue, NegValue, SlotIntervalEnd, SlotIntervalStart, SubValue, UseValue),
+                                        ValueId (..))
+import Ledger (PubKeyHash (..), Slot (..))
+import Ledger.Value (CurrencySymbol (..), TokenName (..))
+import PlutusTx.Builtins (BuiltinByteString)
 
 byteStringToParty :: BuiltinByteString -> Maybe (Party, BuiltinByteString)
 byteStringToParty x = do (y, t1) <- byteStringToPositiveInt x

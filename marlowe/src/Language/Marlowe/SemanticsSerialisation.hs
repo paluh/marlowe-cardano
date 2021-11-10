@@ -1,13 +1,11 @@
 module Language.Marlowe.SemanticsSerialisation (contractToByteString) where
 
-import           Language.Marlowe.SemanticsTypes (Action (..), Bound (..), Case (..), ChoiceId (..), Contract (..),
-                                                  Observation (..), Party (..), Payee (..), Token (..), Value (..),
-                                                  ValueId (..))
-import           Language.Marlowe.Serialisation  (intToByteString, listToByteString, packByteString,
-                                                  positiveIntToByteString)
-import           Ledger                          (PubKeyHash (..), Slot (..))
-import           Ledger.Value                    (CurrencySymbol (..), TokenName (..))
-import           PlutusTx.Builtins               (BuiltinByteString, appendByteString)
+import Language.Marlowe.SemanticsTypes (Action (..), Bound (..), Case (..), ChoiceId (..), Contract (..),
+                                        Observation (..), Party (..), Payee (..), Token (..), Value (..), ValueId (..))
+import Language.Marlowe.Serialisation (intToByteString, listToByteString, packByteString, positiveIntToByteString)
+import Ledger (PubKeyHash (..), Slot (..))
+import Ledger.Value (CurrencySymbol (..), TokenName (..))
+import PlutusTx.Builtins (BuiltinByteString, appendByteString)
 
 partyToByteString :: Party -> BuiltinByteString
 partyToByteString (PK (PubKeyHash x))  = positiveIntToByteString 0 `appendByteString` packByteString x
