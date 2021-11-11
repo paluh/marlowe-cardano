@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Option where
+module CoveredCall where
 
 import           Language.Marlowe.Extended
 
@@ -19,7 +19,7 @@ contract =
 
 -- |A Covered Call is an option strategie constructed by writing a call on a token
 coveredCall ::
-     Party    -- ^ Issuer writing the covered call, i.e. short the call option
+     Party    -- ^ Issuer of the covered call, i.e. short the call option
   -> Party    -- ^ Counterparty, long the call option
   -> Token    -- ^ Currency
   -> Token    -- ^ Underlying
