@@ -92,7 +92,7 @@ executable marlowe-playground-server
         CouponBondGuaranteed
         ZeroCouponBond
         Swap
-        Option
+        CoveredCall
         ContractForDifferences
         ContractForDifferencesWithOracle
     hs-source-dirs: app contracts
@@ -141,7 +141,7 @@ executable flow-chart-generator
         CouponBondGuaranteed
         ZeroCouponBond
         Swap
-        Option
+        CoveredCall
         ContractForDifferences
         ContractForDifferencesWithOracle
     hs-source-dirs: app contracts
