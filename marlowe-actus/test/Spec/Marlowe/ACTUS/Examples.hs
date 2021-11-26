@@ -55,9 +55,9 @@ ex_pam1 =
       ( \ct -> case genFsContract defaultRiskFactors ct of
           Failure _ -> assertFailure "Terms validation should not fail"
           Success contract ->
-            let principal = IDeposit (Role "counterparty") "counterparty" ada 10000
-                ip = IDeposit (Role "party") "party" ada 200
-                redemption = IDeposit (Role "party") "party" ada 10000
+            let principal = NormalInput $ IDeposit (Role "counterparty") "counterparty" ada 10000
+                ip = NormalInput $ IDeposit (Role "party") "party" ada 200
+                redemption = NormalInput $ IDeposit (Role "party") "party" ada 10000
 
                 out =
                   computeTransaction
@@ -116,9 +116,9 @@ ex_lam1 =
       ( \ct -> case genFsContract defaultRiskFactors ct of
           Failure _ -> assertFailure "Terms validation should not fail"
           Success contract -> do
-            let principal = IDeposit (Role "counterparty") "counterparty" ada 10000
-                pr i = IDeposit (Role "party") "party" ada i
-                ip i = IDeposit (Role "party") "party" ada i
+            let principal = NormalInput $ IDeposit (Role "counterparty") "counterparty" ada 10000
+                pr i = NormalInput $ IDeposit (Role "party") "party" ada i
+                ip i = NormalInput $ IDeposit (Role "party") "party" ada i
                 out =
                   computeTransaction
                     ( TransactionInput
@@ -177,9 +177,9 @@ ex_nam1 =
       ( \ct -> case genFsContract defaultRiskFactors ct of
         Failure _ -> assertFailure "Terms validation should not fail"
         Success contract -> do
-          let principal = IDeposit (Role "counterparty") "counterparty" ada 10000
-              pr i = IDeposit (Role "party") "party" ada i
-              ip i = IDeposit (Role "party") "party" ada i
+          let principal = NormalInput $ IDeposit (Role "counterparty") "counterparty" ada 10000
+              pr i = NormalInput $ IDeposit (Role "party") "party" ada i
+              ip i = NormalInput $ IDeposit (Role "party") "party" ada i
               out =
                 computeTransaction
                   ( TransactionInput
@@ -238,9 +238,9 @@ ex_ann1 =
       ( \ct -> case genFsContract defaultRiskFactors ct of
         Failure _ -> assertFailure "Terms validation should not fail"
         Success contract -> do
-          let principal = IDeposit (Role "counterparty") "counterparty" ada 10000
-              pr i = IDeposit (Role "party") "party" ada i
-              ip i = IDeposit (Role "party") "party" ada i
+          let principal = NormalInput $ IDeposit (Role "counterparty") "counterparty" ada 10000
+              pr i = NormalInput $ IDeposit (Role "party") "party" ada i
+              ip i = NormalInput $ IDeposit (Role "party") "party" ada i
               out =
                 computeTransaction
                   ( TransactionInput
@@ -282,8 +282,8 @@ ex_optns1 =
     run ct = case genStaticContract rf ct of
       Failure _ -> assertFailure "Terms validation should not fail"
       Success contract -> -- Prelude.writeFile "option2.marlowe" (show $ pretty contract)
-          let principal = IDeposit (Role "counterparty") "counterparty" ada
-              ex = IDeposit (Role "party") "party" ada
+          let principal = NormalInput . IDeposit (Role "counterparty") "counterparty" ada
+              ex = NormalInput . IDeposit (Role "party") "party" ada
               out =
                 computeTransaction
                   ( TransactionInput

@@ -112,7 +112,7 @@ mkMarloweStateMachineTransition params SM.State{ SM.stateData=MarloweData{..}, S
                         Close -> (payoutConstraints payoutsByParty, P.zero)
                         _ -> let
                             outputsConstraints = payoutConstraints payoutsByParty
-                            totalIncome = P.foldMap collectDeposits inputs
+                            totalIncome = P.foldMap (collectDeposits . getInputContent) inputs
                             totalPayouts = P.foldMap snd payoutsByParty
                             finalBalance = inputBalance P.+ totalIncome P.- totalPayouts
                             in (outputsConstraints, finalBalance)
@@ -127,11 +127,11 @@ mkMarloweStateMachineTransition params SM.State{ SM.stateData=MarloweData{..}, S
   where
     validateInputs :: MarloweParams -> [Input] -> TxConstraints Void Void
     validateInputs MarloweParams{rolesCurrency} inputs = let
-        (keys, roles) = P.foldMap validateInputWitness inputs
+        (keys, roles) = P.foldMap (validateInputWitness . getInputContent) inputs
         mustSpendSetOfRoleTokens = P.foldMap mustSpendRoleToken (AssocMap.keys roles)
         in P.foldMap mustBeSignedBy keys P.<> mustSpendSetOfRoleTokens
       where
-        validateInputWitness :: Input -> ([PubKeyHash], AssocMap.Map TokenName ())
+        validateInputWitness :: InputContent -> ([PubKeyHash], AssocMap.Map TokenName ())
         validateInputWitness input =
             case input of
                 IDeposit _ party _ _         -> validatePartyWitness party
@@ -144,7 +144,7 @@ mkMarloweStateMachineTransition params SM.State{ SM.stateData=MarloweData{..}, S
         mustSpendRoleToken :: TokenName -> TxConstraints Void Void
         mustSpendRoleToken role = mustSpendAtLeast $ Val.singleton rolesCurrency role 1
 
-    collectDeposits :: Input -> Val.Value
+    collectDeposits :: InputContent -> Val.Value
     collectDeposits (IDeposit _ _ (Token cur tok) amount) = Val.singleton cur tok amount
     collectDeposits _                                     = P.zero
 
