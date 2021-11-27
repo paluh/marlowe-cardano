@@ -22,10 +22,10 @@ An extended example showing the execution of a three-step contract is available 
       validator                Export a validator to a JSON file.
       datum                    Export a datum to a JSON file.
       redeemer                 Export a redeemer to a JSON file.
-      build-simple             Build a non-Marlowe transaction.
-      build-incoming           Build a transaction that pays to a Marlowe script.
-      build-continuing         Build a transaction that both spends from and pays to a Marlowe script.
-      build-outgoing           Build a transaction that spends from a Marlowe script.
+      transact                 Build a non-Marlowe transaction.
+      create                   Build a transaction that pays to a Marlowe script.
+      advance                  Build a transaction that both spends from and pays to a Marlowe script.
+      close                    Build a transaction that spends from a Marlowe script.
       submit                   Submit a transaction body.
       example                  Hardwired example.
 
@@ -39,10 +39,10 @@ Individual help pages:
     *   [`marlowe-cli datum`](datum.md)
     *   [`marlowe-cli redeemer`](redeemer.md)
 *   Building transactions.
-    *   [`marlowe-cli build-simple`](build-simple.md)
-    *   [`marlowe-cli build-incoming`](build-incoming.md)
-    *   [`marlowe-cli build-continuing`](build-continuing.md)
-    *   [`marlowe-cli build-outgoing`](build-outgoing.md)
+    *   [`marlowe-cli transact`](transact.md)
+    *   [`marlowe-cli create`](create.md)
+    *   [`marlowe-cli advance`](advance.md)
+    *   [`marlowe-cli close`](close.md)
 *   Submitting transactions.
     *   [`marlowe-cli submit`](submit.md)
 
