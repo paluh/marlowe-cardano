@@ -88,6 +88,7 @@ library
     Language.Marlowe.Pretty
     Language.Marlowe.Analysis.FSSemantics
   other-modules:
+    Plutus.Contract.Extra
 
 test-suite marlowe-test-long-running
     import: lang
