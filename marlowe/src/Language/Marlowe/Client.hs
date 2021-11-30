@@ -57,6 +57,7 @@ import           Ledger.Typed.Tx                 (TypedScriptTxOut (..), tyTxOut
 import qualified Ledger.Value                    as Val
 import           Plutus.ChainIndex               (_ValidTx, citxInputs, citxOutputs, citxTxId)
 import           Plutus.Contract                 as Contract
+import           Plutus.Contract.Extra           (txHistoryAt)
 import           Plutus.Contract.StateMachine    (AsSMContractError (..), StateMachineClient (..), Void,
                                                   WaitingResult (..))
 import qualified Plutus.Contract.StateMachine    as SM
@@ -154,15 +155,17 @@ type MarloweContractState = LastResult
 
 marloweFollowContract :: Contract ContractHistory MarloweFollowSchema MarloweError ()
 marloweFollowContract = awaitPromise $ endpoint @"follow" $ \params -> do
-    let client = mkMarloweClient params
+    let client@StateMachineClient{scInstance} = mkMarloweClient params
+    let inst = SM.typedValidator scInstance
+    let address = Scripts.validatorAddress inst
     let go [] = pure InProgress
         go (tx:rest) = do
             res <- updateHistoryFromTx client params tx
             case res of
                 Finished   -> pure Finished
                 InProgress -> go rest
-
-    go [] >>= checkpointLoop (follow client params)
+    addressTxns <- txHistoryAt address
+    go addressTxns >>= checkpointLoop (follow client params)
 
   where
     follow client params = \case

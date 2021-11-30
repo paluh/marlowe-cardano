@@ -194,16 +194,11 @@ trustFundTest = checkPredicateOptions defaultCheckOptions "Trust Fund Contract"
     T..&&. assertNotDone marlowePlutusContract (Trace.walletInstanceTag bob) "contract should not have any errors"
     T..&&. walletFundsChange alice (lovelaceValueOf (-256) <> Val.singleton (rolesCurrency params) "alice" 1)
     T..&&. walletFundsChange bob (lovelaceValueOf 256 <> Val.singleton (rolesCurrency params) "bob" 1)
-    -- TODO Commented out because the new chain index does not allow to fetch
-    -- all transactions that modified an address. Need to find an alternative
-    -- way.
-    --T..&&. assertAccumState marloweFollowContract "bob follow"
-    --    (\state@ContractHistory{chParams, chHistory} ->
-    --        case chParams of
-    --            First (Just (mp, MarloweData{marloweContract})) -> mp == params && marloweContract == contract
-    --            _                                               -> False) "follower contract state"
-    --        --mp MarloweData{marloweContract} history
-    --        -- chParams == (_ params) && chParams == (_ contract))
+    T..&&. assertAccumState marloweFollowContract "bob follow"
+        (\state@ContractHistory{chParams, chHistory} ->
+            case chParams of
+                First (Just (mp, MarloweData{marloweContract})) -> mp == params && marloweContract == contract
+                _                                               -> False) "follower contract state"
     ) $ do
 
     -- Init a contract
