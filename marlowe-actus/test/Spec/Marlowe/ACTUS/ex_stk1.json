@@ -1,0 +1,20 @@
+{
+    "scheduleConfig": {
+        "businessDayConvention": "NULL",
+        "endOfMonthConvention": "EOM",
+        "calendar": "NC"
+    },
+    "contractType": "STK",
+    "contractID": "stk06",
+    "contractRole": "RPA",
+    "contractDealDate": "2012-12-28T00:00:00",
+    "statusDate": "2012-12-30T00:00:00",
+    "notionalPrincipal": "1000",
+    "currency": "USD",
+    "purchaseDate": "2013-01-01T00:00:00",
+    "priceAtPurchaseDate": "1200",
+    "endOfMonthConvention": "EOM",
+    "cycleAnchorDateOfDividendPayment": "2013-04-01T00:00:00",
+    "cycleOfDividendPayment": "P3ML1",
+    "marketObjectCodeOfDividends": "STK06_DV"
+}

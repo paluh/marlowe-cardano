@@ -1,0 +1,24 @@
+{
+    "contractType": "FUTUR",
+    "contractID": "future01",
+    "contractRole": "BUY",
+    "contractStructure": [
+        {
+            "object": {
+                "marketObjectCode": "AAPL"
+            },
+            "referenceType": "MOC",
+            "referenceRole": "UDL"
+        }
+    ],
+    "currency": "USD",
+    "calendar": "NC",
+    "contractDealDate": "2020-01-01T00:00:00",
+    "statusDate": "2020-01-01T00:00:00",
+    "purchaseDate": "2020-01-02T00:00:00",
+    "priceAtPurchaseDate": "10",
+    "maturityDate": "2020-03-30T00:00:00",
+    "futuresPrice": " 80",
+    "settlementPeriod": "P0D",
+    "deliverySettlement": "S"
+}

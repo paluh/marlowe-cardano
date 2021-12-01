@@ -124,6 +124,22 @@ term: 10 years
 
 A stock is a contract that pay dividends based on a schedule.
 
+```
+price at purchase date: 1200
+purchase date: 1.1.2013
+dividends: 25
+```
+|Date|Dividend|
+|----|--------|
+|1.4.2013|25|
+|1.7.2013|25|
+|1.10.2013|25|
+|1.1.2014|25|
+|1.4.2014|25|
+|...|25|
+
+[ACTUS contract terms](test/Spec/Marlowe/ACTUS/ex_stk1.json)
+
 #### Option
 
 An option is the right to buy (or sell) a specific underlying at a defined date for a defined price.
@@ -148,6 +164,20 @@ maturity date: 30.3.2020
 #### Future
 
 A future is the obligation to buy (or sell) a specific underlying at a defined date for a defined price.
+
+underlying: XXX
+strike: 80
+price at purchase date: 10
+purchase date: 2.1.2020
+maturity date: 30.3.2020
+```
+
+|Date|Asset|Value|
+|----|-----|-----|
+|Maturity|Underlying|120|
+|Maturity|Option|40|
+
+[ACTUS contract terms](test/Spec/Marlowe/ACTUS/ex_futur1.json)
 
 ## Test cases
 
