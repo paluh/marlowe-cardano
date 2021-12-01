@@ -28,7 +28,8 @@ import           Data.List               (nub)
 import           Data.Maybe              (catMaybes)
 import           Ledger                  (Address, TxId, TxIn (txInRef), TxOut (txOutAddress), TxOutRef (txOutRefId))
 import           Plutus.ChainIndex       (ChainIndexTx, ChainIndexTxOutputs (InvalidTx, ValidTx), citxInputs,
-                                          citxOutputs)
+                                          citxOutputs, citxTxId)
+import           Plutus.Contract         (logDebug)
 import           Plutus.Contract.Request (txFromTxId, utxosTxOutTxAt)
 import           Plutus.Contract.Types   (AsContractError, Contract)
 
@@ -50,8 +51,13 @@ txHistoryAt address =
   do
     -- Find the UTxOs at the address.
     citxs <- fmap snd . toList <$> utxosTxOutTxAt address
+    let
+      p = anyOutputTo address
+      -- FIXME: Correct for the function `utxosTxOutAt` erroneously including
+      --        UTxOs with different staking credentials.
+      citxs' = filter p citxs
     -- Filter the history for transactions that have output to the address.
-    nub . concat <$> mapM (filterTxHistory $ anyOutputTo address) citxs
+    nub . concat <$> mapM (filterTxHistory "" p) citxs'
 
 
 -- | Test whether a transaction has outputs to a given address.
@@ -76,13 +82,16 @@ type FilterChainIndexTx =  ChainIndexTx  -- ^ The transaction of interest.
 -- | the starting transaction.
 filterTxHistory :: forall w s e
                 .  AsContractError e
-                => FilterChainIndexTx             -- ^ The filtering criterion.
+                => String
+                -> FilterChainIndexTx             -- ^ The filtering criterion.
                 -> ChainIndexTx                   -- ^ The starting transaction of the history.
                 -> Contract w s e [ChainIndexTx]  -- ^ Action for finding the transaction history.
-filterTxHistory p citx =
+filterTxHistory indent p citx =
   do
-    citxs <- incomingTxs citx
-    (citx :) . concat <$> mapM (filterTxHistory p) citxs
+    -- FIXME: Remove logging.
+    logDebug $ indent <> show (citx ^. citxTxId)
+    citxs <- filter p <$> incomingTxs citx
+    nub . (citx :) . concat <$> mapM (filterTxHistory (indent <> "  ") p) citxs
 
 
 -- | Find the transactions with inputs to transaction of interest.
@@ -99,4 +108,4 @@ incomingTxs citx =
     txIds = txOutRefId <$> txOutRefs :: [TxId]
   in
     -- Look up the whole transactions.
-    catMaybes <$> mapM txFromTxId txIds
+    nub . catMaybes <$> mapM txFromTxId txIds
