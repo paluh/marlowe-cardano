@@ -30,18 +30,17 @@ import           Data.Row                            (Empty)
 import           GHC.Generics                        (Generic)
 import           Language.PureScript.Bridge          (argonaut, equal, genericShow, mkSumType)
 import           Ledger                              (TxId)
-import           Playground.Types                    (FunctionSchema)
 import           Plutus.PAB.Effects.Contract.Builtin (Builtin, BuiltinHandler (..), HasDefinitions (..),
                                                       SomeBuiltin (..), endpointsToSchemas, handleBuiltin)
 import           Plutus.PAB.Run.PSGenerator          (HasPSTypes (..))
 import           Plutus.PAB.Simulator                (SimulatorEffectHandlers, mkSimulatorHandlers)
 import           Prettyprinter                       (Pretty (pretty), viaShow)
-import           Schema                              (FormSchema)
 import           TestChainIndex.History              (historyContract)
 
 import qualified Data.OpenApi.Schema                 as OpenApi (ToSchema)
 
 
+-- | Contracts for testing.
 data TestContracts =
     WaitForTx TxId -- FIXME: Why do API calls fail w/o this?
   | HistoryContract
@@ -56,26 +55,15 @@ instance HasPSTypes TestContracts where
 
 instance HasDefinitions TestContracts where
     getDefinitions = [HistoryContract]
-    getContract = getTestContracts
-    getSchema = getTestContractsSchema
+    getContract = \case
+                    HistoryContract -> SomeBuiltin historyContract
+                    _               -> undefined
+    getSchema = \case
+                  HistoryContract{} -> endpointsToSchemas @Empty
+                  _                 -> undefined
 
 
-getTestContractsSchema :: TestContracts
-                       -> [FunctionSchema FormSchema]
-getTestContractsSchema =
-  \case
-    HistoryContract{} -> endpointsToSchemas @Empty
-    _                 -> undefined
-
-
-getTestContracts :: TestContracts
-                 -> SomeBuiltin
-getTestContracts =
-  \case
-    HistoryContract -> SomeBuiltin historyContract
-    _               -> undefined
-
-
+-- | Make the handlers.
 handlers :: SimulatorEffectHandlers (Builtin TestContracts)
 handlers =
   mkSimulatorHandlers def def
