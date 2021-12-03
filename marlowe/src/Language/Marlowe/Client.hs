@@ -57,7 +57,7 @@ import           Ledger.Typed.Tx                 (TypedScriptTxOut (..), tyTxOut
 import qualified Ledger.Value                    as Val
 import           Plutus.ChainIndex               (_ValidTx, citxInputs, citxOutputs, citxTxId)
 import           Plutus.Contract                 as Contract
-import           Plutus.Contract.Extra           (txHistoryAt)
+import           Plutus.Contract.Extra           (continuingHistoryAt)
 import           Plutus.Contract.StateMachine    (AsSMContractError (..), StateMachineClient (..), Void,
                                                   WaitingResult (..))
 import qualified Plutus.Contract.StateMachine    as SM
@@ -164,7 +164,7 @@ marloweFollowContract = awaitPromise $ endpoint @"follow" $ \params -> do
             case res of
                 Finished   -> pure Finished
                 InProgress -> go rest
-    addressTxns <- txHistoryAt address
+    addressTxns <- continuingHistoryAt address
     go addressTxns >>= checkpointLoop (follow client params)
 
   where

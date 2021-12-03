@@ -15,6 +15,7 @@
 
 
 module Main (
+-- * Entry point
   main
 ) where
 
@@ -24,5 +25,6 @@ import           Plutus.PAB.Run                      (runWith)
 import           TestChainIndex                      (TestContracts)
 
 
+-- | Run the tests.
 main :: IO ()
 main = runWith $ handleBuiltin @TestContracts
