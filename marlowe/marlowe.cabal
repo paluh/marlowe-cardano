@@ -218,6 +218,7 @@ executable marlowe-chainindex-test
     base >= 4.9 && < 5,
     aeson -any,
     base16-bytestring -any,
+    bytestring -any,
     data-default -any,
     freer-simple -any,
     lens -any,

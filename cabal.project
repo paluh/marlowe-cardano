@@ -282,9 +282,9 @@ source-repository-package
 -- of plutus-apps are also updated
 source-repository-package
   type: git
-  location: https://github.com/input-output-hk/plutus-apps
-  tag: a6868cde87600051a4cc808777d665d0b859853c
-  --sha256: 10m0gmnakjnpnzyvjs3ksfpxgjcq3pdphr4gf8v7fjhr9fjbc45n
+  location: https://github.com/bwbush/plutus-apps
+  tag: 209925a74fa3ea5ee5918ce6eb62ed6652d34c0d
+  --sha256: 0wczkhxjbl28vzv41fgjijp2vn2p8ag6ys8nz01c9vdgqb9hhj07
   subdir:
     freer-extras
     playground-common
