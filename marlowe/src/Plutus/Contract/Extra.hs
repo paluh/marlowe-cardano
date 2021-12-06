@@ -40,8 +40,8 @@ import           Plutus.Contract.Types   (AsContractError, Contract)
 -- TODO: Consider replacing this reference implentation with a stack-based search.
 
 
--- | Find all transactions that are UTxOs at the address, or predecessors
---   transactions to the address.
+-- | Find all transactions that are UTxOs at the address, or predecessors of those
+--   transactions and also to the address.
 --
 --   This function does not find all transactions at the address. Instead it
 --   only finds the continuous series of transactions to the address, ending
@@ -73,8 +73,8 @@ filterContinuingHistory :: forall w s e
 filterContinuingHistory p citx =
   do
     let
-      txOutRefs = fmap txInRef . toList $ citx ^. citxInputs :: [TxOutRef]
-    citxs <- catMaybes <$> mapM (filterTxOutRef p) txOutRefs
+      txOutRefs = fmap txInRef . toList $ citx ^. citxInputs
+    citxs <- catMaybes <$> filterTxOutRef p `mapM` txOutRefs
     nub . (citx :) . concat <$> filterContinuingHistory p `mapM` citxs
 
 
