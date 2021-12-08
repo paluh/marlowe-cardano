@@ -23,8 +23,8 @@ couponBondGuaranteed = $(makeRelativeToProject "contracts/CouponBondGuaranteed.h
 swap :: ByteString
 swap = $(makeRelativeToProject "contracts/Swap.hs" >>= embedFile)
 
-option :: ByteString
-option = $(makeRelativeToProject "contracts/Option.hs" >>= embedFile)
+coveredCall :: ByteString
+coveredCall = $(makeRelativeToProject "contracts/CoveredCall.hs" >>= embedFile)
 
 contractForDifferences :: ByteString
 contractForDifferences = $(makeRelativeToProject "contracts/ContractForDifferences.hs" >>= embedFile)
