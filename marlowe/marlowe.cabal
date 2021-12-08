@@ -241,7 +241,7 @@ executable marlowe-cli
 executable marlowe-chainindex-test
   import:         lang
   hs-source-dirs: test
-  main-is:        testChainIndex.hs
+  main-is:        mainChainIndex.hs
   other-modules:  TestChainIndex
                   TestChainIndex.History
   build-depends:
