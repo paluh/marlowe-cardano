@@ -1,4 +1,4 @@
-{ marlowe-playground, marlowe-pab, web-ghc, marlowe-dashboard, cardano-node, docs, pkgs, sources }:
+{ marlowe-playground, marlowe-pab, web-ghc, marlowe-dashboard, cardano-node, cardano-wallet, docs, pkgs, sources }:
 let
   staticSite = pkgs.callPackage (sources.plutus-apps + "/bitte/static-site.nix") { };
   playgroundStatic = pkgs.callPackage (sources.plutus-apps + "/bitte/playground-static.nix") { inherit staticSite; docs = docs.site; };
@@ -25,4 +25,6 @@ in
   node = pkgs.callPackage ./node {
     inherit cardano-node;
   };
+
+  wbe = pkgs.callPackage ./wbe.nix { inherit cardano-wallet; };
 }
